@@ -90,6 +90,15 @@
 
 
 #pragma mark - NSURLConnectionDataDelegate Related Methods
+//- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+//{
+//    if([response respondsToSelector:@selector(allHeaderFields)]) {
+//        NSDictionary *headerFields = [(NSHTTPURLResponse *)response allHeaderFields];
+//        NSString *lastUpdated = [headerFields valueForKey:@"Last-Modified"];
+//        NSLog(@"lastUpdated >>> %@", lastUpdated);
+//    }
+//}
+
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
     [_downloadData appendData:data];

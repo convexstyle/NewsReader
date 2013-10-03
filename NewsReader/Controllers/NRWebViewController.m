@@ -64,6 +64,7 @@
     webView.scalesPageToFit  = YES;
     webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     webView.delegate         = self;
+    webView.backgroundColor  = [UIColor whiteColor];
     [self.view addSubview:webView];
     [webView release];
     

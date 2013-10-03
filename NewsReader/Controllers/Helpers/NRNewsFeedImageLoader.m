@@ -62,11 +62,9 @@
     }
     _downloadData = [[NSMutableData alloc] init];
     
-    NSURL *requestURL            = [NSURL URLWithString:_feedData.thumbnailImageHref];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:requestURL];
-    [request setTimeoutInterval:10];// Timeout is 10 seconds
-//    [request setCachePolicy:NSURLRequestReloadIgnoringCacheData];// Ignore Cache
-    _connection                  = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    NSURL *requestURL     = [NSURL URLWithString:_feedData.thumbnailImageHref];
+    NSURLRequest *request = [NSURLRequest requestWithURL:requestURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
+    _connection           = [[NSURLConnection alloc] initWithRequest:request delegate:self];
 }
 
 - (void)cancelLoading
