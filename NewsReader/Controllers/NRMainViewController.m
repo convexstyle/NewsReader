@@ -295,6 +295,8 @@ static NSString *const newsFeedURL = @"http://mobilatr.mob.f2.com.au/services/vi
     [newsFeedParser load];
 }
 
+
+#pragma mark - Image Load Related Methods
 - (void)loadNewsFeedEachImageWithFeedData:(NRFeedData*)aFeedData indexPath:(NSIndexPath*)aIndexPath
 {
     NRNewsFeedImageLoader *imageLoader = [[NRNewsFeedImageLoader alloc] init];// Retain
@@ -340,7 +342,6 @@ static NSString *const newsFeedURL = @"http://mobilatr.mob.f2.com.au/services/vi
 #pragma mark - Feed Parse Related Methods
 - (void)parseNewsFeed:(NSData *)aData
 {
-    
     if(aData) {
         
         NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
