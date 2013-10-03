@@ -5,19 +5,26 @@ This is a sample application that shows the news feed of [The Sydney Morning Her
 
 ### Guidelines
 
-1. Non-ARC (manual reference counting)
-2. No storyboard
-3. No thread program was used
+*Non-ARC (manual reference counting)
+*No storyboard
+*No thread program was used
 
 
 ### Deployment Target
-iOS 5
+*iOS 5
 
 *In terms of iOS 5, I currently don't have any device which had iOS 5 installed so that I tested News Reader in iOS 5 Simulator.*
 
 
 ### Tested Device
-iPhone 3GS, iPhone 4, iPhone 4S, iPod 4, iPhone 5, iPod 5, iPhone 5s, iPhone 5c
+*iPhone 3GS
+*iPhone 4
+*iPhone 4S
+*iPod 4
+*iPhone 5
+*iPod 5
+*iPhone 5s
+*iPhone 5c
 
 
 ### Ingests a json feed
@@ -27,30 +34,32 @@ iPhone 3GS, iPhone 4, iPhone 4S, iPod 4, iPhone 5, iPod 5, iPhone 5s, iPhone 5c
 3. Delegate the parsing of the JSON object to NRModel and store each feed as a Data Object (NRFeedData) in an NSArray.
 3. Add a UIRefreshControl (ISRefreshControl libary for iOS 5) to refesh the feed. To avoid overwriting the request, I stored the NRNewsFeedParser instance in the NSArray and removed it once the request has been complete.
 
-#### Issues to struggle:
+##### Issues to struggle:
 I got the following warning in the console.
-**ADDRESPONSE - ADDING TO MEMORY ONLY: http://mobilatr.mob.f2.com.au/services/views/9.json**
+<pre>
+ADDRESPONSE - ADDING TO MEMORY ONLY: http://mobilatr.mob.f2.com.au/services/views/9.json
+</pre>
 To solve this, I explicitly set the caching role and time out by *requestWithURL:(NSURL *)URL cachePolicy:(NSURLRequestCachePolicy)cachePolicy timeoutInterval:(NSTimeInterval)timeoutInterval* method.
 
 
 ### Displays the content in a UITableView
 
 1. Add 4 view elements (titleLabel, detailsLabel, imageView, dateLabel) to a custom UITableViewCell class (NRFeedCell).
-2. To achieve the dynamic height according to the contents of each feed, I overwrote *layoutSubviews* and *sizeThatFits:(CGSize)size* in the custom NRFeedCell and prepared a reusable NRFeedCell instance in the main viewController to calculate the height of each row in *(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath*.
-3. Not to show unprovided images, I added the Boolean property **showThumbnail** in NRFeedData so that when the thumbnailImageHref value is null, it is set to false.
+2. To achieve the dynamic height according to the contents of each feed, I overwrote layoutSubviews and sizeThatFits:(CGSize)size in the custom NRFeedCell and prepared a reusable NRFeedCell instance in the main viewController to calculate the height of each row in tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath.
+3. Not to show unprovided images, I added the Boolean property showThumbnail in NRFeedData so that when the thumbnailImageHref value is null, it is set to false.
 
 
 ### Loads the images lazily
 
 1. Handle UIScrollViewDelegate methods from UITableView.
-2. Get NSIndexPath values of the visible rows by using "indexPathsForVisibleRows" and retrieve each row object (NRFeedData) according to the row value.
+2. Get NSIndexPath values of the visible rows by using indexPathsForVisibleRows and retrieve each row object (NRFeedData) according to the row value.
 3. Start loading a thumbnail by using NRNewsFeedImageLoader object. Once the thumbnail is loaded, it is retained (cached) in the NRFeedData object so that it is no longer loaded later.
 
-#### It can be done
+##### It can be done
 Instead of loading a low-res image, the high-res version of the image can be loaded.
 ex. 
-http://images.smh.com.au/2013/10/02/4795935/John%20Hopkins.-90x60.jpg (low-res)
-http://images.smh.com.au/2013/10/02/4795935/John%20Hopkins.-180x120.jpg (high-res)
+*http://images.smh.com.au/2013/10/02/4795935/John%20Hopkins.-90x60.jpg (low-res)
+*http://images.smh.com.au/2013/10/02/4795935/John%20Hopkins.-180x120.jpg (high-res)
 
 
 ### When clicking on a cell
