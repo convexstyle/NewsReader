@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+// Controllers
+#import "NRNavViewController.h"
+#import "NRMainViewController.h"
+
 @interface NRAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;

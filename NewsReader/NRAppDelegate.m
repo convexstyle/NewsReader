@@ -8,16 +8,79 @@
 
 #import "NRAppDelegate.h"
 
-@implementation NRAppDelegate
+@implementation NRAppDelegate {
+    NRModel *_model;
+}
+
+@synthesize window = _window;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
-    self.window.backgroundColor = [UIColor whiteColor];
-    [self.window makeKeyAndVisible];
+    // Window
+    _window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
+    //--- UIAppearance ---//
+    // NavigationBar
+    UIImage *nav44BgImage   = [[UIImage imageNamed:@"NavigationBar_Bg_44"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+    UIImage *nav32BgImage   = [[UIImage imageNamed:@"NavigationBar_Bg_32"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+    [[UINavigationBar appearance] setBackgroundImage:nav44BgImage forBarMetrics:UIBarMetricsDefault];
+    [[UINavigationBar appearance] setBackgroundImage:nav32BgImage forBarMetrics:UIBarMetricsLandscapePhone];
+    
+    NSDictionary *navParams = [NSDictionary dictionaryWithObjectsAndKeys:
+                               [UIColor blackColor], UITextAttributeTextColor,
+//                               [UIFont fontWithName:@"HelveticaNeue-Bold" size:0], UITextAttributeFont,
+                               [UIColor clearColor], UITextAttributeTextShadowColor,
+                               [NSValue valueWithUIOffset:UIOffsetMake(0, 0)], UITextAttributeTextShadowOffset,
+                               nil];
+    [[UINavigationBar appearance] setTitleTextAttributes:navParams];
+    
+    // UIBarButtonItem
+    NSDictionary *barButtonParams = [NSDictionary dictionaryWithObjectsAndKeys:
+                                    UIColorFromRGB(0x007aff), UITextAttributeTextColor,
+                                    [UIFont fontWithName:@"HelveticaNeue-Bold" size:0], UITextAttributeFont,
+                                    [UIColor clearColor], UITextAttributeTextShadowColor,
+                                    [NSValue valueWithUIOffset:UIOffsetMake(0, 0)], UITextAttributeTextShadowOffset,
+                                    nil];
+    [[UIBarButtonItem appearance] setTitleTextAttributes:barButtonParams forState:UIControlStateNormal];
+    
+    if(SYSTEM_VERSION_LESS_THAN(@"7")) {
+        UIImage *backNormal30Image = [[UIImage imageNamed:@"UIBarButtonItem_BackNormal_30"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 15, 0, 3)];
+        [[UIBarButtonItem appearance] setBackButtonBackgroundImage:backNormal30Image forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+        UIImage *backNormal24Image = [[UIImage imageNamed:@"UIBarButtonItem_BackNormal_24"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 15, 5, 3)];
+        [[UIBarButtonItem appearance] setBackButtonBackgroundImage:backNormal24Image forState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
+    }
+    
+    // UIRefreshControl
+//    [[UIRefreshControl appearance] setTintColor:UIColorFromRGB(0x3eabf8)];
+    
+    //--- Model ---//
+    _model = [NRModel getInstance];
+    
+    //--- Controllers ---//
+    NRMainViewController *mainViewController = [[NRMainViewController alloc] init];
+    NRNavViewController *navController       = [[NRNavViewController alloc] initWithRootViewController:mainViewController];
+    [mainViewController release];
+    
+    [_window setRootViewController:navController];
+    [navController release];
+    
+    _window.backgroundColor = [UIColor whiteColor];
+    [_window makeKeyAndVisible];
     return YES;
 }
+
+- (void)dealloc
+{
+    if(_window) {
+        [_window release], _window = nil;
+    }
+    if(_model) {
+        [_model release], _model = nil;
+    }
+    
+    [super dealloc];
+}
+
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
